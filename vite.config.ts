@@ -55,5 +55,4 @@ export default defineConfig({
       }
     })
   ],
-  base: '/pwa-words/',
 })
