@@ -1,23 +1,26 @@
 .word-group {
-  padding: 1rem;
+  padding: 1.5rem;
   background: #c8e6c9;
   border-radius: 8px;
   margin-bottom: 1rem;
-}
-
-.word-group__header {
   display: flex;
-  justify-content: flex-end;
-  margin-bottom: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
 .word-group__points {
-  font-size: 0.875rem;
+  font-size: 2.25rem;
   font-weight: bold;
-  color: #666;
-  background: #e0e0e0;
-  padding: 0.25rem 0.75rem;
-  border-radius: 12px;
+  color: #c8e6c9;
+  background: #4caf50;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .word-group__words {

@@ -18,9 +18,6 @@ export const WordGroup: React.FC<WordGroupProps> = ({
 }) => {
   return (
     <div className="word-group">
-      <div className="word-group__header">
-        <span className="word-group__points">{points} очк.</span>
-      </div>
       <div className="word-group__words">
         {words.map((word, wordIndex) => {
           const wordKey = `g${groupIndex}-w${wordIndex}`;
@@ -40,6 +37,7 @@ export const WordGroup: React.FC<WordGroupProps> = ({
           );
         })}
       </div>
+      <span className="word-group__points">+{points}</span>
     </div>
   );
 };
