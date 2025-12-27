@@ -49,6 +49,7 @@ export const Card: React.FC<CardProps> = ({ card, animationClass = '' }) => {
         cardId={card.id} 
         timerDuration={120}
         onExpire={handleTimerExpire}
+        totalScore={calculateTotalScore()}
       />
       
       <div className="card__content">
@@ -62,11 +63,6 @@ export const Card: React.FC<CardProps> = ({ card, animationClass = '' }) => {
             onCheckChange={handleCheckChange}
           />
         ))}
-      </div>
-
-      <div className="card__score">
-        <span className="card__score-label">Итого:</span>
-        <span className="card__score-value">{calculateTotalScore()} очк.</span>
       </div>
     </div>
   );

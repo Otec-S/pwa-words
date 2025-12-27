@@ -5,12 +5,14 @@ interface TimerProps {
   cardId: number;
   timerDuration?: number; // in seconds
   onExpire: () => void;
+  totalScore: number;
 }
 
 export const Timer: React.FC<TimerProps> = ({ 
   cardId, 
   timerDuration = 120, 
-  onExpire 
+  onExpire,
+  totalScore 
 }) => {
   const [timeLeft, setTimeLeft] = useState(timerDuration);
   const [isRunning, setIsRunning] = useState(false);
@@ -82,6 +84,10 @@ export const Timer: React.FC<TimerProps> = ({
       >
         {isRunning ? 'СТОП' : 'СТАРТ'}
       </button>
+      <div className="timer-score">
+        <span className="timer-score__label">Итого:</span>
+        <span className="timer-score__value">{totalScore} очк.</span>
+      </div>
     </div>
   );
 };

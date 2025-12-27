@@ -1,10 +1,28 @@
 .timer {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 1rem;
   padding: 1rem;
   border-bottom: 2px solid #e0e0e0;
+}
+
+.timer-score {
+  margin-left: auto;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.timer-score__label {
+  color: white;
+}
+
+.timer-score__value {
+  color: white;
+  font-size: 1.5rem;
 }
 
 .timer-display {
@@ -58,6 +76,8 @@
   .timer {
     flex-direction: column;
     gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
   }
 
   .timer-display {
@@ -67,5 +87,9 @@
   .timer-button {
     width: 100%;
     padding: 0.875rem;
+  }
+
+  .timer-score {
+    margin-left: 0;
   }
 }
