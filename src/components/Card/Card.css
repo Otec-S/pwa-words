@@ -1,5 +1,5 @@
 .card {
-  background: white;
+  background: #4caf50;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -12,12 +12,17 @@
 }
 
 .card--expired {
-  background-color: #ff4444;
+  background-color: #d32f2f;
 }
 
 .card--expired .card__content,
 .card--expired .card__score {
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: transparent;
+}
+
+.card--expired .card__score-label,
+.card--expired .card__score-value {
+  color: white;
 }
 
 .card__content {
@@ -43,7 +48,7 @@
 
 .card__score-value {
   color: #4caf50;
-  font-size: 1.5rem;
+  font-size: 2rem;
 }
 
 /* Animation classes */

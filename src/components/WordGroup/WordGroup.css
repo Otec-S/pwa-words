@@ -1,6 +1,6 @@
 .word-group {
   padding: 1rem;
-  background: #f9f9f9;
+  background: #c8e6c9;
   border-radius: 8px;
   margin-bottom: 1rem;
 }
@@ -37,6 +37,28 @@
   height: 1.25rem;
   cursor: pointer;
   flex-shrink: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: white;
+  border: 2px solid #666;
+  border-radius: 4px;
+  position: relative;
+}
+
+.word-item__checkbox:checked {
+  background-color: white;
+  border-color: #666;
+}
+
+.word-item__checkbox:checked::after {
+  content: '✓';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: black;
+  font-size: 1rem;
+  font-weight: bold;
 }
 
 .word-item__label {
@@ -44,11 +66,13 @@
   cursor: pointer;
   user-select: none;
   flex: 1;
+  color: #2e7d32;
 }
 
 .word-item__checkbox:checked + .word-item__label {
   color: #4caf50;
   font-weight: 500;
+  text-decoration: line-through;
 }
 
 @media (max-width: 480px) {

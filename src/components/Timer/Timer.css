@@ -13,6 +13,7 @@
   font-variant-numeric: tabular-nums;
   min-width: 5rem;
   text-align: center;
+  color: white;
 }
 
 .timer-button {
@@ -29,6 +30,7 @@
 .timer-button--start {
   background-color: #4caf50;
   color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
 }
 
 .timer-button--start:hover {
