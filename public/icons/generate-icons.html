@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Icon Generator</title>
+</head>
+<body>
+  <h1>Icon Generator</h1>
+  <p>Generating PNG icons...</p>
+  <canvas id="canvas192" width="192" height="192" style="display:none;"></canvas>
+  <canvas id="canvas512" width="512" height="512" style="display:none;"></canvas>
+  
+  <div>
+    <h2>192x192:</h2>
+    <img id="img192" />
+    <a id="download192" download="icon-192x192.png">Download 192x192</a>
+  </div>
+  
+  <div>
+    <h2>512x512:</h2>
+    <img id="img512" />
+    <a id="download512" download="icon-512x512.png">Download 512x512</a>
+  </div>
+
+  <script>
+    function createIcon(size) {
+      const canvas = document.getElementById(`canvas${size}`);
+      const ctx = canvas.getContext('2d');
+      
+      // Background
+      ctx.fillStyle = '#667eea';
+      ctx.fillRect(0, 0, size, size);
+      
+      // Text
+      ctx.fillStyle = 'white';
+      ctx.font = `bold ${size * 0.4}px Arial, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('С', size / 2, size / 2);
+      
+      // Convert to PNG
+      const dataURL = canvas.toDataURL('image/png');
+      document.getElementById(`img${size}`).src = dataURL;
+      document.getElementById(`download${size}`).href = dataURL;
+    }
+    
+    createIcon(192);
+    createIcon(512);
+  </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1rem;
+}
+
+.app__container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.app__card-wrapper {
+  width: 100%;
+  max-width: 600px;
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .app {
+    padding: 0.5rem;
+  }
+
+  .app__container {
+    padding: 0.5rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .app {
+    padding: 0;
+  }
+
+  .app__card-wrapper {
+    max-width: 100%;
+  }
+}
+

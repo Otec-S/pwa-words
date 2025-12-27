@@ -1,0 +1,62 @@
+.word-group {
+  padding: 1rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.word-group__header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.75rem;
+}
+
+.word-group__points {
+  font-size: 0.875rem;
+  font-weight: bold;
+  color: #666;
+  background: #e0e0e0;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+}
+
+.word-group__words {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.word-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.word-item__checkbox {
+  width: 1.25rem;
+  height: 1.25rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.word-item__label {
+  font-size: 2rem;
+  cursor: pointer;
+  user-select: none;
+  flex: 1;
+}
+
+.word-item__checkbox:checked + .word-item__label {
+  color: #4caf50;
+  font-weight: 500;
+}
+
+@media (max-width: 480px) {
+  .word-group {
+    padding: 0.75rem;
+  }
+
+  .word-item__label {
+    font-size: 2rem;
+  }
+}

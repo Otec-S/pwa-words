@@ -1,0 +1,31 @@
+{
+  "cards": [
+    {
+      "id": 1,
+      "groups": [
+        { "words": ["run", "walk", "jump"], "points": 3 },
+        { "words": ["read", "write", "speak"], "points": 3 },
+        { "words": ["understand"], "points": 5 },
+        { "words": ["communicate effectively"], "points": 7 }
+      ]
+    },
+    {
+      "id": 2,
+      "groups": [
+        { "words": ["tree", "flower", "grass"], "points": 3 },
+        { "words": ["cat", "dog", "bird"], "points": 3 },
+        { "words": ["ecosystem"], "points": 5 },
+        { "words": ["biodiversity conservation"], "points": 7 }
+      ]
+    },
+    {
+      "id": 3,
+      "groups": [
+        { "words": ["door", "window", "wall"], "points": 3 },
+        { "words": ["table", "chair", "bed"], "points": 3 },
+        { "words": ["comfortable"], "points": 5 },
+        { "words": ["family gathering place"], "points": 7 }
+      ]
+    }
+  ]
+}
