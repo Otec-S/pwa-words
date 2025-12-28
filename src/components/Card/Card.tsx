@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import type { Card as CardType } from '../../types';
 import { Timer } from '../Timer/Timer';
 import { WordGroup } from '../WordGroup/WordGroup';
+import { TIMER_DURATION } from '../../constants';
 import './Card.css';
 
 interface CardProps {
@@ -47,7 +48,7 @@ export const Card: React.FC<CardProps> = ({ card, animationClass = '' }) => {
     <div className={`card ${isExpired ? 'card--expired' : ''} ${animationClass}`}>
       <Timer 
         cardId={card.id} 
-        timerDuration={120}
+        timerDuration={TIMER_DURATION}
         onExpire={handleTimerExpire}
         totalScore={calculateTotalScore()}
       />

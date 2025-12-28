@@ -112,18 +112,44 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .card {
     border-radius: 0;
     max-width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: none;
+  }
+
+  .card__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
   }
 
   .card__score {
-    padding: 0.875rem 1rem;
+    padding: 1rem;
     font-size: 1.125rem;
+    border-top: none;
   }
 
   .card__score-value {
-    font-size: 1.375rem;
+    font-size: 1.5rem;
+  }
+
+  /* Safe area padding for card content */
+  @supports (padding: env(safe-area-inset-top)) {
+    .card__content {
+      padding-left: max(1.5rem, env(safe-area-inset-left));
+      padding-right: max(1.5rem, env(safe-area-inset-right));
+    }
+
+    .card__score {
+      padding-left: max(1rem, env(safe-area-inset-left));
+      padding-right: max(1rem, env(safe-area-inset-right));
+      padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    }
   }
 }

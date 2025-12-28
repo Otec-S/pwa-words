@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { TIMER_DURATION } from '../../constants';
 import './Timer.css';
 
 interface TimerProps {
@@ -10,7 +11,7 @@ interface TimerProps {
 
 export const Timer: React.FC<TimerProps> = ({ 
   cardId, 
-  timerDuration = 120, 
+  timerDuration = TIMER_DURATION, 
   onExpire,
   totalScore 
 }) => {
