@@ -31,7 +31,7 @@ export const WordGroup: React.FC<WordGroupProps> = ({
                 onChange={() => onCheckChange(wordKey)}
               />
               <label htmlFor={wordKey} className="word-item__label">
-                {word}
+                {word.toUpperCase()}
               </label>
             </div>
           );
