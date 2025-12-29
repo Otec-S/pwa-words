@@ -36,11 +36,10 @@ export const Timer: React.FC<TimerProps> = ({
     oscillator.frequency.value = 900; // 900 Hz
     oscillator.type = 'sine';
 
-    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.7);
+    gainNode.gain.setValueAtTime(1, audioContext.currentTime); // максимальная громкость
 
     oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.7); // 700ms duration
+    oscillator.stop(audioContext.currentTime + 5); // 5 секунд
   }, []);
 
   // Timer countdown logic

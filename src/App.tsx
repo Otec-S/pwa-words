@@ -12,6 +12,7 @@ const cardsData = cardsDataImport as { cards: CardType[] };
 function App() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [animationClass, setAnimationClass] = useState('');
+  const [isExpired, setIsExpired] = useState(false);
 
   const cards = cardsData.cards;
   const currentCard = cards[currentIndex];
@@ -51,8 +52,8 @@ function App() {
   return (
     <div className="app">
       <div className="app__container">
-        <div className="app__card-wrapper">
-          <Card card={currentCard} animationClass={animationClass} />
+        <div className={`app__card-wrapper${isExpired ? ' app__card-wrapper--expired' : ''}`}>
+          <Card card={currentCard} animationClass={animationClass} onExpireStateChange={setIsExpired} />
         </div>
         <Navigation
           onPrevious={goToPrevious}

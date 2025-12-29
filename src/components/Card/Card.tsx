@@ -10,7 +10,7 @@ interface CardProps {
   animationClass?: string;
 }
 
-export const Card: React.FC<CardProps> = ({ card, animationClass = '' }) => {
+export const Card: React.FC<CardProps & { onExpireStateChange?: (expired: boolean) => void }> = ({ card, animationClass = '', onExpireStateChange }) => {
   const [checkedState, setCheckedState] = useState<{ [key: string]: boolean }>({});
   const [isExpired, setIsExpired] = useState(false);
 
@@ -18,6 +18,7 @@ export const Card: React.FC<CardProps> = ({ card, animationClass = '' }) => {
   useEffect(() => {
     setCheckedState({});
     setIsExpired(false);
+    if (onExpireStateChange) onExpireStateChange(false);
   }, [card.id]);
 
   const handleCheckChange = (wordKey: string) => {
@@ -42,6 +43,7 @@ export const Card: React.FC<CardProps> = ({ card, animationClass = '' }) => {
 
   const handleTimerExpire = () => {
     setIsExpired(true);
+    if (onExpireStateChange) onExpireStateChange(true);
   };
 
   return (
