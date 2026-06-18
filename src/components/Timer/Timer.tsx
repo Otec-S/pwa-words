@@ -1,6 +1,9 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { TIMER_DURATION } from '../../constants';
 import './Timer.css';
+
+const SOUND_FREQUENCY = 900;
+const SOUND_DURATION = 0.7;
 
 interface TimerProps {
   cardId: number;
@@ -17,39 +20,62 @@ export const Timer: React.FC<TimerProps> = ({
 }) => {
   const [timeLeft, setTimeLeft] = useState(timerDuration);
   const [isRunning, setIsRunning] = useState(false);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const hasExpiredRef = useRef(false);
+  const onExpireRef = useRef(onExpire);
+  onExpireRef.current = onExpire;
 
   // Reset timer when card changes
   useEffect(() => {
     setTimeLeft(timerDuration);
     setIsRunning(false);
+    hasExpiredRef.current = false;
   }, [cardId, timerDuration]);
 
-  // Play sound using Web Audio API
-  const playSound = useCallback(() => {
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+  const ensureAudioContext = useCallback(async () => {
+    if (!audioContextRef.current) {
+      const AudioContextClass = window.AudioContext || (window as typeof window & { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      audioContextRef.current = new AudioContextClass();
+    }
+    if (audioContextRef.current.state === 'suspended') {
+      await audioContextRef.current.resume();
+    }
+    return audioContextRef.current;
+  }, []);
+
+  const playSound = useCallback(async () => {
+    const audioContext = await ensureAudioContext();
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
 
     oscillator.connect(gainNode);
     gainNode.connect(audioContext.destination);
 
-    oscillator.frequency.value = 900; // 900 Hz
+    oscillator.frequency.value = SOUND_FREQUENCY;
     oscillator.type = 'sine';
 
-    gainNode.gain.setValueAtTime(1, audioContext.currentTime); // максимальная громкость
+    const startTime = audioContext.currentTime;
+    gainNode.gain.setValueAtTime(0.3, startTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + SOUND_DURATION);
 
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 5); // 5 секунд
-  }, []);
+    oscillator.start(startTime);
+    oscillator.stop(startTime + SOUND_DURATION);
+  }, [ensureAudioContext]);
+
+  const handleExpire = useCallback(() => {
+    if (hasExpiredRef.current) return;
+    hasExpiredRef.current = true;
+    void playSound();
+    onExpireRef.current();
+    setIsRunning(false);
+  }, [playSound]);
 
   // Timer countdown logic
   useEffect(() => {
     if (!isRunning) return;
 
     if (timeLeft <= 0) {
-      playSound();
-      onExpire();
-      setIsRunning(false);
+      handleExpire();
       return;
     }
 
@@ -63,9 +89,12 @@ export const Timer: React.FC<TimerProps> = ({
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, [isRunning, timeLeft, playSound, onExpire]);
+  }, [isRunning, timeLeft, handleExpire]);
 
   const handleStartStop = () => {
+    if (!isRunning) {
+      void ensureAudioContext();
+    }
     setIsRunning(!isRunning);
   };
 

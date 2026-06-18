@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import type { Card as CardType } from '../../types';
 import { Timer } from '../Timer/Timer';
 import { WordGroup } from '../WordGroup/WordGroup';
@@ -41,10 +41,10 @@ export const Card: React.FC<CardProps & { onExpireStateChange?: (expired: boolea
     return total;
   };
 
-  const handleTimerExpire = () => {
+  const handleTimerExpire = useCallback(() => {
     setIsExpired(true);
     if (onExpireStateChange) onExpireStateChange(true);
-  };
+  }, [onExpireStateChange]);
 
   return (
     <div className={`card ${isExpired ? 'card--expired' : ''} ${animationClass}`}>
