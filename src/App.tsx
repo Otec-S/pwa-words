@@ -18,7 +18,7 @@ function App() {
   const currentCard = cards[currentIndex];
 
   const goToNext = () => {
-    if (currentIndex < cards.length - 1) {
+    if (currentIndex < cards.length - 1) { 
       setAnimationClass('slide-out-left');
       setTimeout(() => {
         setCurrentIndex(currentIndex + 1);
