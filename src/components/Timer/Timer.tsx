@@ -3,7 +3,7 @@ import { TIMER_DURATION } from '../../constants';
 import './Timer.css';
 
 const SOUND_FREQUENCY = 900;
-const SOUND_DURATION = 0.7;
+const SOUND_DURATION = 5;
 
 interface TimerProps {
   cardId: number;
@@ -55,8 +55,7 @@ export const Timer: React.FC<TimerProps> = ({
     oscillator.type = 'sine';
 
     const startTime = audioContext.currentTime;
-    gainNode.gain.setValueAtTime(0.3, startTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + SOUND_DURATION);
+    gainNode.gain.setValueAtTime(1, startTime);
 
     oscillator.start(startTime);
     oscillator.stop(startTime + SOUND_DURATION);
