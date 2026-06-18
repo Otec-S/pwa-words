@@ -49,7 +49,7 @@ export const Card: React.FC<CardProps & { onExpireStateChange?: (expired: boolea
   return (
     <div className={`card ${isExpired ? 'card--expired' : ''} ${animationClass}`}>
       <Timer 
-        cardId={card.id} 
+        key={card.id}
         timerDuration={TIMER_DURATION}
         onExpire={handleTimerExpire}
         totalScore={calculateTotalScore()}

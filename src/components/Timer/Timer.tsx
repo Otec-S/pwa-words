@@ -2,18 +2,77 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { TIMER_DURATION } from '../../constants';
 import './Timer.css';
 
-const SOUND_FREQUENCY = 900;
-const SOUND_DURATION = 5;
+const NOTE = {
+  G4: 392.0,
+  C5: 523.25,
+  D5: 587.33,
+  E5: 659.25,
+  G5: 783.99,
+  A5: 880.0,
+  B5: 987.77,
+  C6: 1046.5,
+  D6: 1174.66,
+  E6: 1318.51,
+  G6: 1567.98,
+} as const;
+
+const MELODY: { freq: number; duration: number }[] = [
+  { freq: NOTE.C5, duration: 0.10 },
+  { freq: NOTE.E5, duration: 0.10 },
+  { freq: NOTE.G5, duration: 0.10 },
+  { freq: NOTE.C6, duration: 0.10 },
+  { freq: NOTE.E6, duration: 0.10 },
+  { freq: NOTE.G6, duration: 0.10 },
+  { freq: NOTE.E6, duration: 0.10 },
+  { freq: NOTE.C6, duration: 0.10 },
+  { freq: NOTE.G5, duration: 0.10 },
+  { freq: NOTE.E5, duration: 0.10 },
+  { freq: NOTE.C5, duration: 0.10 },
+  { freq: NOTE.G4, duration: 0.10 },
+  { freq: NOTE.G4, duration: 0.15 },
+  { freq: NOTE.G4, duration: 0.15 },
+  { freq: NOTE.G4, duration: 0.15 },
+  { freq: NOTE.C5, duration: 0.45 },
+  { freq: NOTE.E5, duration: 0.15 },
+  { freq: NOTE.G5, duration: 0.15 },
+  { freq: NOTE.C6, duration: 0.45 },
+  { freq: NOTE.G5, duration: 0.15 },
+  { freq: NOTE.E5, duration: 0.15 },
+  { freq: NOTE.C5, duration: 0.15 },
+  { freq: NOTE.E5, duration: 0.15 },
+  { freq: NOTE.G5, duration: 0.55 },
+  { freq: NOTE.C6, duration: 0.85 },
+];
+
+const playNote = (
+  audioContext: AudioContext,
+  frequency: number,
+  startTime: number,
+  duration: number,
+) => {
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+
+  oscillator.type = 'square';
+  oscillator.frequency.value = frequency;
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+
+  gainNode.gain.setValueAtTime(1, startTime);
+  gainNode.gain.setValueAtTime(1, startTime + duration);
+  gainNode.gain.setValueAtTime(0, startTime + duration + 0.01);
+
+  oscillator.start(startTime);
+  oscillator.stop(startTime + duration + 0.01);
+};
 
 interface TimerProps {
-  cardId: number;
   timerDuration?: number; // in seconds
   onExpire: () => void;
   totalScore: number;
 }
 
 export const Timer: React.FC<TimerProps> = ({ 
-  cardId, 
   timerDuration = TIMER_DURATION, 
   onExpire,
   totalScore 
@@ -24,13 +83,6 @@ export const Timer: React.FC<TimerProps> = ({
   const hasExpiredRef = useRef(false);
   const onExpireRef = useRef(onExpire);
   onExpireRef.current = onExpire;
-
-  // Reset timer when card changes
-  useEffect(() => {
-    setTimeLeft(timerDuration);
-    setIsRunning(false);
-    hasExpiredRef.current = false;
-  }, [cardId, timerDuration]);
 
   const ensureAudioContext = useCallback(async () => {
     if (!audioContextRef.current) {
@@ -45,20 +97,13 @@ export const Timer: React.FC<TimerProps> = ({
 
   const playSound = useCallback(async () => {
     const audioContext = await ensureAudioContext();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-
-    oscillator.frequency.value = SOUND_FREQUENCY;
-    oscillator.type = 'sine';
-
     const startTime = audioContext.currentTime;
-    gainNode.gain.setValueAtTime(1, startTime);
+    let offset = 0;
 
-    oscillator.start(startTime);
-    oscillator.stop(startTime + SOUND_DURATION);
+    for (const { freq, duration } of MELODY) {
+      playNote(audioContext, freq, startTime + offset, duration);
+      offset += duration;
+    }
   }, [ensureAudioContext]);
 
   const handleExpire = useCallback(() => {
@@ -91,10 +136,12 @@ export const Timer: React.FC<TimerProps> = ({
   }, [isRunning, timeLeft, handleExpire]);
 
   const handleStartStop = () => {
-    if (!isRunning) {
-      void ensureAudioContext();
+    if (isRunning) {
+      setIsRunning(false);
+      return;
     }
-    setIsRunning(!isRunning);
+    void ensureAudioContext();
+    setIsRunning(true);
   };
 
   const formatTime = (seconds: number): string => {
